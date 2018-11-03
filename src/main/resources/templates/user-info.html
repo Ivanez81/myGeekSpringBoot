@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User information</title>
+    <head th:insert="~{fragments/my-head :: header}"></head>
+</head>
+
+<body>
+<div class="container">
+    <nav>
+        <div th:replace="~{fragments/my-nav :: menu(UserInfo)}"></div>
+    </nav>
+    <main>
+        <p>User name: </p>
+        <p th:text="${name}"></p>
+        <br>
+        <p>User roles: </p>
+        <p th:text="${#authentication.getPrincipal()}"></p>
+    </main>
+</div>
+</body>
+
+<footer>
+    <div th:insert="~{fragments/my-footer :: foot}"></div>
+</footer>
+
+</html>

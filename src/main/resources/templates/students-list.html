@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Students List</title>
+    <head th:insert="~{fragments/my-head :: header}"></head>
+</head>
+
+<body>
+<div class="container">
+    <nav>
+        <div th:replace="~{fragments/my-nav :: menu(StudentsList)}"></div>
+    </nav>
+
+    <main>
+        <h1>Students List</h1>
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Courses Count</th>
+                <th sec:authorize="hasAnyRole('ADMIN', 'MANAGER')">Actions</th>
+            </tr>
+            </thead>
+
+            <!--/*@thymesVar id="studentsList" type="java.util.List<ru.blinov.mygeekspringboot.entities.Student>"*/-->
+            <tr th:each="student : ${studentsList}">
+                <td th:text="${student.id}"></td>
+                <td th:text="${student.name}"></td>
+                <td th:text="${student.courses.size()}"></td>
+                <td sec:authorize="hasAnyRole('ADMIN', 'MANAGER')">
+                    <a class="btn btn-primary" th:href="@{'/students/' + ${student.id} + '/edu'}"
+                       role="button">Courses Info</a>
+                </td>
+            </tr>
+        </table>
+        <br>
+        <a th:href="@{/}">Back To Main Page</a>
+        <br>
+        <button id="consoleTestBtn" >Console</button>
+        <input id="myInput" />
+    </main>
+
+</div>
+</body>
+
+<footer>
+    <div th:insert="~{fragments/my-footer :: foot}"></div>
+</footer>
+
+</html>

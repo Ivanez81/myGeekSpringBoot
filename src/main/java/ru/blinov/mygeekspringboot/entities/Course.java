@@ -1,5 +1,7 @@
 package ru.blinov.mygeekspringboot.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
@@ -9,6 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "course")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Course {
 
     @Id
@@ -28,21 +31,27 @@ public class Course {
     @Setter
     private int duration;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @Column(name = "description")
+    @Getter
+    @Setter
+    private String description;
+
+//    @JsonManagedReference
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name="student_course",
             joinColumns=@JoinColumn(name="course_id"),
             inverseJoinColumns=@JoinColumn(name="student_id")
     )
-    @Cascade({org.hibernate.annotations.CascadeType.DELETE, org.hibernate.annotations.CascadeType.DETACH})
+//    @Cascade({org.hibernate.annotations.CascadeType.DELETE, org.hibernate.annotations.CascadeType.DETACH})
     @Getter
     @Setter
     private List<Student> students;
-
-    @Transient
-    @Setter
-    @Getter
-    private List<Integer> grades;
+//
+//    @Transient
+//    @Setter
+//    @Getter
+//    private List<Integer> grades;
 
     public Course() {
     }

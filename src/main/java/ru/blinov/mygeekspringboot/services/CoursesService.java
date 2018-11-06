@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.blinov.mygeekspringboot.entities.Course;
 import ru.blinov.mygeekspringboot.repositories.CoursesRepository;
+import ru.blinov.mygeekspringboot.utils.CourseNotFoundException;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CoursesService {
@@ -21,14 +23,28 @@ public class CoursesService {
     public CoursesService() {
     }
 
-    @Transactional
     public Course getCourseById(Long id) {
-        return coursesRepository.findCourseById(id);
+        Optional<Course> course = coursesRepository.findById(id);
+        if (!course.isPresent()) {
+            throw new CourseNotFoundException("Course with id = " + id + " not found");
+        }
+        return course.get();
     }
 
-    @Transactional
+    public Course saveOrUpdate(Course course) {
+        return coursesRepository.save(course);
+    }
+
+    public void delete(Long id) {
+        Optional<Course> course = coursesRepository.findById(id);
+        if (!course.isPresent()) {
+            throw new CourseNotFoundException("Course with id = " + id + " not found");
+        }
+        coursesRepository.delete(course.get());
+    }
+
     public List<Course> getAllCourses() {
-        return (List)coursesRepository.findAll();
+        return (List<Course>)coursesRepository.findAll();
     }
 
     @Transactional

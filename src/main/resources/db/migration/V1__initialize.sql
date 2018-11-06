@@ -65,13 +65,31 @@ CREATE TABLE student (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB CHARSET=latin1;
 
+INSERT INTO student (name)
+VALUES
+       ('Ivan'),
+       ('Bob'),
+       ('Alex'),
+       ('Boris'),
+       ('Theo'),
+       ('Irina');
+
 DROP TABLE IF EXISTS course;
 CREATE TABLE course (
   id INT(11) NOT NULL AUTO_INCREMENT,
   name VARCHAR(100) NOT NULL,
   duration INT NOT NULL,
+  description VARCHAR(255),
   PRIMARY KEY (id)
 ) ENGINE=InnoDB CHARSET=latin1;
+
+INSERT INTO course (name, duration, description)
+VALUES
+       ('Java', 7, 'The best Java course'),
+       ('C++', 6, 'C++ for professional'),
+       ('Assembler', 12, 'Very hard'),
+       ('Python', 8, 'Ideal for web programming'),
+       ('.Net', 5, 'for Windows');
 
 DROP TABLE IF EXISTS student_course;
 CREATE TABLE student_course (
@@ -88,3 +106,18 @@ CREATE TABLE student_course (
   REFERENCES course (id)
     ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB CHARSET=latin1;
+
+INSERT INTO student_course (student_id, course_id)
+VALUES
+       (1, 1),
+       (1, 2),
+       (1, 3),
+       (1, 4),
+       (2, 3),
+       (2, 4),
+       (2, 5),
+       (3, 1),
+       (3, 4),
+       (4, 2),
+       (5, 3),
+       (6, 4);

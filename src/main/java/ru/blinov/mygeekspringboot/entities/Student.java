@@ -1,5 +1,6 @@
 package ru.blinov.mygeekspringboot.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
@@ -23,13 +24,14 @@ public class Student {
     @Setter
     private String name;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @JsonBackReference
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name="student_course",
             joinColumns=@JoinColumn(name="student_id"),
             inverseJoinColumns=@JoinColumn(name="course_id")
     )
-    @Cascade({org.hibernate.annotations.CascadeType.DELETE, org.hibernate.annotations.CascadeType.DETACH})
+//    @Cascade({org.hibernate.annotations.CascadeType.DELETE, org.hibernate.annotations.CascadeType.DETACH})
     @Getter
     @Setter
     private List<Course> courses;
